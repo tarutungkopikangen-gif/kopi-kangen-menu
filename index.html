@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kopi Kangen - Menu</title>
+
+<link rel="icon" href="Images/LOGO_MENU/Logo_Kopi_Kangen.png" type="image/png">
+
+<style>
+  /* ================= ROOT THEME ================= */
+  :root{
+    --bg:#f7f9fb;
+    --bg-soft:#eef2f5;
+    --card:#ffffff;
+    --text:#222;
+    --muted:#777;
+    --primary:#00a8a8;
+    --primary-soft:#1ec9c9;
+    --border:#ddd;
+    --shadow:0 6px 14px rgba(0,0,0,.06);
+  }
+  
+  body.dark{
+    --bg:#0f1115;
+    --bg-soft:#151922;
+    --card:#1c2230;
+    --text:#f1f5f9;
+    --muted:#9ca3af;
+    --primary:#22d3ee;
+    --primary-soft:#67e8f9;
+    --border:#2b3242;
+    --shadow:0 8px 20px rgba(0,0,0,.4);
+  }
+  
+  *{
+    font-family:'Segoe UI',sans-serif;
+    box-sizing:border-box;
+    transition:background .25s,color .25s,border .25s;
+  }
+  
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg),var(--bg-soft));
+    color:var(--text);
+    overflow-x:hidden;
+  }
+  
+  /* ================= HEADER ================= */
+  .header{
+    background:var(--card);
+    padding:12px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:20;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    animation:fadeDown .5s ease;
+  }
+  
+  .main-logo{
+    height:42px;
+    width:auto;
+    display:block;
+    transition:filter .3s ease;
+  }
+  body.dark .main-logo{
+    filter:invert(1) brightness(2);
+  }
+  
+  .theme-toggle{
+    border:none;
+    background:transparent;
+    font-size:18px;
+    cursor:pointer;
+    padding:6px 8px;
+    border-radius:8px;
+  }
+  .theme-toggle:hover{background:rgba(0,0,0,.05)}
+  body.dark .theme-toggle:hover{background:rgba(255,255,255,.08)}
+  
+  @keyframes fadeDown{
+    from{opacity:0;transform:translateY(-20px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  
+  /* ================= HERO ================= */
+  .hero{
+    padding:14px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+    animation:fadeUp .6s ease;
+    position:relative;
+  }
+  
+  .hero-hint{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:linear-gradient(135deg,var(--primary),var(--primary-soft));
+    color:#fff;
+    padding:10px 18px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    box-shadow:0 8px 20px rgba(0,168,168,.4);
+    z-index:10;
+    animation:floatHint 1.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  
+  @keyframes floatHint{
+    0%,100%{transform:translate(-50%,-50%) translateY(0)}
+    50%{transform:translate(-50%,-50%) translateY(-8px)}
+  }
+  
+  .hero-card{
+    background:var(--card);
+    border-radius:22px;
+    padding:0;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:.35s cubic-bezier(.25,.8,.25,1);
+    position:relative;
+    overflow:hidden;
+    min-height:340px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+  }
+  
+  .hero-card:hover{
+    transform:translateY(-6px) scale(1.015);
+    box-shadow:0 16px 32px rgba(0,0,0,.18);
+  }
+  
+  .hero-card::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55));
+    opacity:0;
+    transition:.35s;
+  }
+  .hero-card:hover::after{opacity:1}
+  
+  .hero-card img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.4s ease;
+  }
+  .hero-card:hover img{transform:scale(1.05)}
+  
+  .hero-card b{
+    position:relative;
+    z-index:2;
+    width:100%;
+    padding:18px 16px;
+    font-size:20px;
+    font-weight:700;
+    color:#fff;
+    text-align:left;
+    background:linear-gradient(to top,rgba(0,0,0,.65),transparent);
+  }
+  
+  @media(min-width:768px){
+    .hero{
+      grid-template-columns:1fr 1fr;
+      padding:20px;
+    }
+    .hero-card{min-height:420px}
+  }
+  
+  /* ================= CATEGORY ================= */
+  .category{
+    display:none;
+    gap:8px;
+    padding:10px 12px;
+    overflow-x:auto;
+    background:var(--bg-soft);
+    position:sticky;
+    top:58px;
+    z-index:15;
+    animation:slideDown .4s ease;
+  }
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .category::-webkit-scrollbar{display:none}
+  .category button{
+    flex:0 0 auto;
+    padding:7px 16px;
+    border-radius:999px;
+    border:none;
+    background:rgba(0,0,0,.05);
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    cursor:pointer;
+    transition:.25s;
+  }
+  body.dark .category button{
+    background:rgba(255,255,255,.08);
+  }
+  .category button:hover{transform:translateY(-2px)}
+  .category button.active{
+    background:linear-gradient(135deg,var(--primary),var(--primary-soft));
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,168,168,.3);
+  }
+  
+  /* ================= MENU LIST ================= */
+  .menu{
+    padding:12px;
+    padding-bottom:260px;
+  }
+  
+  .item{
+    background:var(--card);
+    border-radius:16px;
+    padding:12px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin-bottom:12px;
+    animation:fadeUp .35s ease;
+    box-shadow:var(--shadow);
+    transition:.25s;
+  }
+  .item:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(0,0,0,.1);
+  }
+  
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  
+  .item img{
+    width:74px;
+    height:74px;
+    border-radius:14px;
+    object-fit:cover;
+    flex-shrink:0;
+  }
+  
+  .info{flex:1}
+  .info b{font-size:14px;color:var(--text)}
+  .price{font-size:13px;color:var(--muted);margin-top:3px}
+  
+  /* ================= DRINK TOGGLE ================= */
+  .drink-toggle{
+    display:flex;
+    gap:6px;
+    margin-top:6px;
+  }
+  
+  .temp-btn{
+    padding:4px 10px;
+    border-radius:999px;
+    border:none;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    background:rgba(0,0,0,.08);
+    color:var(--text);
+    transition:.25s;
+  }
+  body.dark .temp-btn{
+    background:rgba(255,255,255,.12);
+  }
+  .temp-btn.active{
+    background:linear-gradient(135deg,var(--primary),var(--primary-soft));
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,168,168,.3);
+  }
+  
+  /* ================= BUTTON QTY ================= */
+  .plus, .minus{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:none;
+    font-size:18px;
+    cursor:pointer;
+    transition:.2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  
+  .plus{
+    background:linear-gradient(135deg,var(--primary),var(--primary-soft));
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,168,168,.3);
+  }
+  .plus:active{transform:scale(.85)}
+  
+  .minus{
+    background:rgba(0,0,0,.08);
+    color:var(--text);
+  }
+  body.dark .minus{
+    background:rgba(255,255,255,.12);
+  }
+  .minus:active{transform:scale(.85)}
+  
+  .qty{
+    min-width:26px;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
+  }
+  
+  /* ================= ORDER BOX ================= */
+  .order-box{
+    display:none;
+    position:fixed;
+    bottom:-380px;
+    left:0;
+    width:100%;
+    background:var(--card);
+    padding:14px 14px 16px;
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;
+    border-top:1px solid var(--border);
+    box-shadow:0 -10px 30px rgba(0,0,0,.15);
+    transition:.5s cubic-bezier(.25,.8,.25,1);
+    z-index:30;
+  }
+  .order-box.show{bottom:0}
+  
+  .order-list{
+    font-size:14px;
+    margin-bottom:8px;
+  }
+  .order-list div{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:4px;
+  }
+  
+  .total{
+    font-weight:700;
+    margin-bottom:8px;
+    font-size:15px;
+  }
+  
+  textarea{
+    width:100%;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    margin-top:6px;
+    font-size:14px;
+    resize:none;
+    background:transparent;
+    color:var(--text);
+  }
+  
+  .send{
+    margin-top:10px;
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#25D366,#1ebc5b);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 6px 14px rgba(37,211,102,.35);
+  }
+  .send:hover{transform:translateY(-2px)}
+  .send:active{transform:scale(.95)}
+  
+  .back-btn{
+    background:none;
+    border:none;
+    color:var(--primary);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .back-btn:active{transform:scale(.9)}
+  </style>
+  </head>
+  
+  <body>
+
+<div class="header">
+  <div>
+    <img src="images/LOGO_MENU/Logo_Kopi_Kangen.png" alt="Logo Kopi Kangen" class="main-logo">
+  </div>
+  <div style="display:flex;gap:6px;align-items:center">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="back-btn" id="backBtn" onclick="backToHome()" style="display:none">⬅ Kembali</button>
+  </div>
+</div>
+
+<div class="hero" id="hero">
+  <div class="hero-hint">👇 Klik salah satu menu</div>
+
+  <div class="hero-card" onclick="openMenu('makanan')">
+    <img src="images/LOGO_MENU/menu_makanan.jpeg">
+    <b>🍛 Makanan</b>
+  </div>
+  <div class="hero-card" onclick="openMenu('minuman')">
+    <img src="images/LOGO_MENU/menu_minuman.jpeg">
+    <b>🥤 Minuman</b>
+  </div>
+</div>
+
+
+<div class="category" id="categoryBar"></div>
+
+<div class="menu" id="menu"></div>
+
+<div class="order-box" id="orderBox">
+  <div class="order-list" id="orderList">Belum ada pesanan</div>
+  <div class="total">💰 Total: <span id="totalHarga">Rp 0</span></div>
+  <textarea id="note" rows="2" placeholder="Catatan khusus (contoh: tanpa gula, tanpa es, dll)"></textarea>
+  <button class="send" onclick="sendWA()">📲 Kirim Pesanan</button>
+</div>
+
+<script>
+/* ================= MENU DATA ================= */
+const menuData = [
+  /* ===== MAKANAN ===== */
+  { nama:"Nasi + Ayam Kremes", harga:22000, kategori:"Ayam", tipe:"makanan", foto:"images/Makanan/ayam_kremes.jpeg" },
+  { nama:"Nasi + Ayam Sambal Matah", harga:22000, kategori:"Ayam", tipe:"makanan", foto:"images/Makanan/nasi-ayam-sambal-matah.jpg" },
+  { nama:"Nasi + Ayam Geprek", harga:22000, kategori:"Ayam", tipe:"makanan", foto:"images/Makanan/Ayam_Geprek.jpg" },
+  { nama:"Nasi + Ayam Asam Manis", harga:25000, kategori:"Ayam", tipe:"makanan", foto:"images/Makanan/Ayam_Asam_Manis.jpg" },
+  { nama:"Nasi + Sop Ayam", harga:25000, kategori:"Ayam", tipe:"makanan", foto:"images/Makanan/Sop_ayam.jpg" },
+  { nama:"Nasi + Ikan Mujair Asam Manis", harga:30000, kategori:"Ikan", tipe:"makanan", foto:"images/Makanan/Ikan_asam_manis.jpeg" },
+  { nama:"Nasi + Ikan Mujair Cabe Hijau", harga:25000, kategori:"Ikan", tipe:"makanan", foto:"images/Makanan/ikan_sambal_hijau.jpg" },
+  { nama:"Nasi + Ikan Mujair Sambal Matah", harga:25000, kategori:"Ikan", tipe:"makanan", foto:"images/Makanan/Ikan_Sambal_Matah.jpeg" },
+  { nama:"Indomie Special (Ayam + Telur)", harga:22000, kategori:"Mindoan", tipe:"makanan", foto:"images/Makanan/Indomie_Special.jpeg" },
+  { nama:"Indomie Telur Goreng", harga:15000, kategori:"Mindoan", tipe:"makanan", foto:"images/Makanan/Indomie_Goreng.jpeg" },
+  { nama:"Indomie Telur Kuah", harga:15000, kategori:"Mindoan", tipe:"makanan", foto:"images/Makanan/Indomie_Kuah.jpeg" },
+  { nama:"Nasi Goreng Biasa", harga:15000, kategori:"Nasi", tipe:"makanan", foto:"images/Makanan/Nasi_Goreng_Biasa.jpg" },
+  { nama:"Nasi Goreng Telur", harga:18000, kategori:"Nasi", tipe:"makanan", foto:"images/Makanan/Nasi_Goreng_Telur.jpg" },
+  { nama:"Nasi Goreng Ayam", harga:20000, kategori:"Nasi", tipe:"makanan", foto:"images/Makanan/nasi-goreng-ayam.jpg" },
+  { nama:"Nasi Goreng Seafood", harga:25000, kategori:"Nasi", tipe:"makanan", foto:"images/Makanan/Nasi-Goreng-Seafood-1.jpg" },
+  { nama:"Kentang Goreng", harga:15000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/Kentang Goreng.jpg" },
+  { nama:"Pisang Goreng Original", harga:15000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/pisang-goreng.jpeg" },
+  { nama:"Sosis Goreng", harga:15000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/sosis_goreng.jpg" },
+  { nama:"Roti Bakar Coklat/Keju", harga:15000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/roti-bakar-1.jpg" },
+  { nama:"Pisang Coklat Keju", harga:18000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/Pisang_Coklat.jpg" },
+  { nama:"Burger", harga:18000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/Burger.jpg" },
+  { nama:"Chicken Nugget", harga:18000, kategori:"Snack", tipe:"makanan", foto:"images/Makanan/nugget.jpeg" },
+  { nama:"Dimsum Udang", harga:25000, kategori:"Dimsum", tipe:"makanan", foto:"images/Makanan/Dimsum_Udang.jpeg" },
+  { nama:"Dimsum Ayam", harga:25000, kategori:"Dimsum", tipe:"makanan", foto:"images/Makanan/Dimsum_Ayam.jpg" },
+  { nama:"Dimsum Rumput Laut", harga:25000, kategori:"Dimsum", tipe:"makanan", foto:"images/Makanan/Dimsum-Rumput-Laut.jpg" },
+  { nama:"Dimsum Kepiting", harga:25000, kategori:"Dimsum", tipe:"makanan", foto:"images/Makanan/Dinsum-Kepiting.jpg" },
+  { nama:"Dimsum Mix", harga:25000, kategori:"Dimsum", tipe:"makanan", foto:"images/Makanan/Dimsum_mix.jpg" },
+  { nama:"Nasi + Cumi Crispy", harga:30000, kategori:"Seafood", tipe:"makanan", foto:"images/Makanan/cumi-crispy-.jpg" },
+  { nama:"Nasi + Cumi Asam Manis", harga:30000, kategori:"Seafood", tipe:"makanan", foto:"images/Makanan/cumi-asam-manis.jpg" },
+  { nama:"Nasi + Cumi Cabe Hijau", harga:30000, kategori:"Seafood", tipe:"makanan", foto:"images/Makanan/cumi_hijau.jpg" },
+  { nama:"Nasi + Udang Tepung Crispy", harga:30000, kategori:"Seafood", tipe:"makanan", foto:"images/Makanan/udang-cirspy.jpg" },
+  { nama:"Nasi + Udang Asam Manis", harga:30000, kategori:"Seafood", tipe:"makanan", foto:"images/Makanan/Udang_Asam_Manis.jpg" },
+  { nama:"Cah Kangkung", harga:15000, kategori:"Sayur", tipe:"makanan", foto:"images/Makanan/Cah_Kangkung.jpg" },
+  { nama:"Capcay Telur", harga:15000, kategori:"Sayur", tipe:"makanan", foto:"images/Makanan/Capcay_Telur.jpg" },
+  { nama:"Capcay Ayam", harga:20000, kategori:"Sayur", tipe:"makanan", foto:"images/Makanan/Capcay_Ayam.jpg" },
+  { nama:"Capcay Seafood", harga:20000, kategori:"Sayur", tipe:"makanan", foto:"images/Makanan/Capcay_Seafood.jpg" },
+  { nama:"Mie Goreng Biasa", harga:15000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Mie_Goreng.jpg" },
+  { nama:"Mie Kuah Biasa", harga:15000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/mie_kuah.jpeg" },
+  { nama:"Mie Goreng Special (Ayam + Telur)", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Mie_Goreng_Special.jpg" },
+  { nama:"Mie Kuah Special (Ayam + Telur)", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Mie_Kuah_Special.jpg" },
+  { nama:"Mie Goreng Seafood", harga:28000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Mie_Goreng_Seafood.jpg" },
+  { nama:"Mie Kuah Seafood", harga:28000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Mie_Kuah_Seafood.jpg" },
+  { nama:"Bihun Goreng Biasa", harga:15000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Bihun_Goreng.jpg" },
+  { nama:"Bihun Goreng Special (Ayam + Telur)", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Bihun_special.jpeg" },
+  { nama:"Bihun Goreng Seafood", harga:28000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Bihun_Seafood.jpg" },
+  { nama:"Kwetiaw Goreng Biasa", harga:15000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Kwetiaw_Biasa.jpg" },
+  { nama:"Kwetiaw Goreng Special (Ayam + Telur)", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Kwetiau-goreng-spesial.jpg" },
+  { nama:"Kwetiaw Goreng Seafood", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Kwetiau-goreng-seafood.jpg" },
+  { nama:"Ifumie Goreng Biasa", harga:15000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Ifumie_Goreng.jpg" },
+  { nama:"Ifumie Kuah Biasa", harga:15000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/ifumie_kuah.jpg" },
+  { nama:"Ifumie Goreng Special (Ayam + Telur)", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Ifumie-Goreng-Spesial.jpg" },
+  { nama:"Ifumie Kuah Special (Ayam + Telur)", harga:25000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/ifumie_kuah_Spesial.jpg" },
+  { nama:"Ifumie Goreng Seafood", harga:28000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/Ifumie_seafood.jpg" },
+  { nama:"Ifumie Kuah Seafood", harga:28000, kategori:"Mie", tipe:"makanan", foto:"images/Makanan/ifumie-seafood.jpg" },
+
+  /* ===== MINUMAN ===== */
+  { nama:"Espresso", harga:10000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/Espresso.jpg" },
+  { nama:"Double Espresso", harga:15000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/Double_Espresso.jpg" },
+  { nama:"Kopi Gula Aren", dingin:18000, panas:20000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/Es-Kopi-Susu-Gula-Aren.jpg" },
+  { nama:"Kopi Sanger", dingin:15000, panas:18000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/sanger.jpeg" },
+  { nama:"Kopi Cappuccino", dingin:18000, panas:20000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/cappucino.jpg" },
+  { nama:"Kopi Tubruk", dingin:7000, panas:9000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/tubruk.jpg" },
+  { nama:"Avocado Coffee", harga:20000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/avocado.jpg" },
+  { nama:"Americano", dingin:15000, panas:18000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/Americano.jpg" },
+  { nama:"Black Coffee", dingin:15000, panas:18000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/black.jpg" },
+  { nama:"Kopi Susu", dingin:15000, panas:18000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/susu.jpg" },
+  { nama:"Brown Sugar Coffee", dingin:18000, panas:20000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/brown.jpg" },
+  { nama:"Kopi Kangen", dingin:18000, panas:20000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/kangen.jpg" },
+  { nama:"Lemon Americano Soda", harga:18000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/es-kopi-lemon-soda-foto-resep-utama.jpg" },
+  { nama:"Orange Americano", harga:18000, kategori:"Kopi Mesin", tipe:"minuman", foto:"images/Minuman/orange-coffee-cocktail-dark-surface-scaled.jpg" },
+
+  { nama:"Caramel Coffee", dingin:18000, panas:20000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/220518.homemade.caramel.latte-6630.jpg" },
+  { nama:"Hazelnut Coffee", dingin:18000, panas:20000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/hazelnut-coffee.jpg" },
+  { nama:"Tiramisu Coffee", dingin:18000, panas:20000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/Tiramisu-Coffee-3.jpg" },
+  { nama:"Vanilla Coffee", dingin:18000, panas:20000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/220629.iced_.latte_.vanilla-9009.jpg" },
+  { nama:"Matcha Coffee", dingin:16000, panas:18000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/matcha-latte-gospecialtycoffee.jpg" },
+  { nama:"Caramel Macchiato", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/CaramelMacchiato_RecipeHeader_848x539_@2x.jpg.jpg" },
+  { nama:"Blue Vanilla Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/blue-cotton-candy-coffee.jpg" },
+  { nama:"Blue Tiramisu Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/latte-macchiato-beautiful-cup-with-tiramisu-latte-beverage-grey-background_724662-5991.jpg" },
+  { nama:"Blutter Scotch Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/COVER_Butterscotch_LatteCocktail.jpg" },
+  { nama:"Oreo Coffee Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/46084323-A9F1-4A87-AA88-1BA670F531E0.jpg" },
+  { nama:"Honey Matcha Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/matchaonomu_-_matcha_memory_maker_latte_honey_cinnamon_oat_milk_matcha_latte_1_600x600.jpg" },
+  { nama:"Honey Coffee Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/87-Honey-Spicy-Latte-1.jpg" },
+  { nama:"Oreo Matcha Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/IMG_0631.jpg" },
+  { nama:"Palm Sugar Latte", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/resep-palm-sugar-latte.jpg" },
+  { nama:"Mocca Brown Sugar", harga:22000, kategori:"Latte", tipe:"minuman", foto:"images/Minuman/photo.jpg" },
+
+  { nama:"Thai Tea", dingin:12000, panas:15000, kategori:"Teh", tipe:"minuman", foto:"images/Minuman/01gctzbxza2e058qq2p8sf2nv1.jpg" },
+  { nama:"Teh Tarik", dingin:12000, panas:15000, kategori:"Teh", tipe:"minuman", foto:"images/Minuman/652fcf5eb1b28.jpg" },
+  { nama:"Lemon Tea", dingin:12000, panas:15000, kategori:"Teh", tipe:"minuman", foto:"images/Minuman/photo (1).jpg" },
+  { nama:"Teh Manis", dingin:7000, panas:9000, kategori:"Teh", tipe:"minuman", foto:"images/Minuman/5d31ef90cd6c389e07bc48a08e583122.jpg" },
+  { nama:"Teh Tong", dingin:5000, panas:7000, kategori:"Teh", tipe:"minuman", foto:"images/Minuman/60b30babac1a1.jpg" },
+  { nama:"Air Mineral", harga:6000, kategori:"Teh", tipe:"minuman", foto:"images/Minuman/2023-02-07-081709.jpg" },
+
+  { nama:"Alpukat", harga:15000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/681px-indonesianfood-jusalpokat-839b942463c1ff77cf7ce587ee731ead.jpg" },
+  { nama:"Es Alpukat Kocok", harga:17000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/images.jpg" },
+  { nama:"Jeruk", harga:15000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/71e0731b190b897f4f412c712314d02e.jpg" },
+  { nama:"Mangga", harga:18000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/m30dy7jka3byrzx.jpg" },
+  { nama:"Kueni", harga:18000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/anLjGh7b0XxuODBtN7cIaqpTGzDBenCW-31363537393434303936d41d8cd98f00b204e9800998ecf8427e.jpg" },
+  { nama:"Terong Belanda", harga:15000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/h8qbIIQRm47lx4zTQF7HORpsW1n04k5a-31363537393639373036d41d8cd98f00b204e9800998ecf8427e.jpg" },
+  { nama:"Buah Naga", harga:15000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/vcthqusv5ittdjc.jpeg" },
+  { nama:"Manggo Cheese Cream", harga:20000, kategori:"Juice", tipe:"minuman", foto:"images/Minuman/KFLLtkejW2hDfSfKUcwHhu2XN5JoUnTn-31373030343535333836d41d8cd98f00b204e9800998ecf8427e.jpg" },
+
+  { nama:"Choco Cheese Ice Cream", harga:18000, kategori:"Es Krim", tipe:"minuman", foto:"images/Minuman/philly-ice-1.jpg" },
+  { nama:"3 Scoops Ice Cream", harga:15000, kategori:"Es Krim", tipe:"minuman", foto:"images/Minuman/35036350-three-scoops-of-chocolate-strawberry-and-vanilla-ice-cream-in-glass.jpg" },
+  
+  { nama:"Red Italian Soda", harga:15000, kategori:"Mocktail", tipe:"minuman", foto:"images/Minuman/blog-italian-soda-1.jpg" },
+  { nama:"Mango Milk", harga:18000, kategori:"Mocktail", tipe:"minuman", foto:"images/Minuman/M237SrUcCyYRAF9lE19ORlDoqSuu01qE-31373030343535373634d41d8cd98f00b204e9800998ecf8427e.jpg" },
+  { nama:"Blue Mojito", harga:15000, kategori:"Mocktail", tipe:"minuman", foto:"images/Minuman/blue-mojito.jpg" },
+  { nama:"Yakult Lychee", harga:10000, kategori:"Mocktail", tipe:"minuman", foto:"images/Minuman/EdDRuedvo9RY5ffRb31QJ4UaMQDJg7IY-31363535343434303937d41d8cd98f00b204e9800998ecf8427e.jpg" },
+
+  { nama:"Cloudy Coklat", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/images (1).jpg" },
+  { nama:"Cloudy Matcha", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/matchaonomu_-_yoghurt_cloud_matcha_smoothie_tenchi_organic_2_3024x.jpg" },
+  { nama:"Cloudy Red Velvet", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/Untitled-design-36-450x450.png" },
+  { nama:"Cloudy Tiramisu", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/003_2.jpg" },
+  { nama:"Cloudy Taro", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/89273t1.jpeg" },
+  { nama:"Cloudy Hazelnut", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/iced-chocolate-with-hazelnut-cloud.jpg" },
+  { nama:"Es Milo Kopi Susu", harga:18000, kategori:"Cloudy Cream", tipe:"minuman", foto:"images/Minuman/ZQyXfKEOFYEhNZcgLR18p0T2tAFjVAhE-31363732333135303632d41d8cd98f00b204e9800998ecf8427e.jpg" },
+  
+  { nama:"Heineken Besar 1 Tower", harga:300000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/bir_tower_heineken_3liter_1729359647_2cd5cc2c_progressive.jpg" },
+  { nama:"Bir Bintang Besar 1 Tower", harga:250000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/55c68595cde504cb8f971ae01491203f.jpg_720x720q80.jpg" },
+  { nama:"Bir Bintang 600 ml (Besar)", harga:65000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/bintang_beer-bintang-bremer-pilsener-botol-besar_full02.jpg" },
+  { nama:"Bir Bintang 300 ml (Kecil)", harga:45000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/14020304-600x600.jpg" },
+  { nama:"Heineken Besar", harga:70000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/heineken_bir-heineken-640ml-botol_full02.jpg" },
+  { nama:"Heineken Kecil", harga:50000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/heineken-330ml.jpg" },
+  { nama:"Bir Hitam", harga:55000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/stout_1.jpg" },
+  { nama:"Soju", harga:120000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/cheosnun_soju-cheosnun-Lychee-360ml-botol_45666x_97703768-5dd8-4369-bce3-f899ab7b65fc.jpg" },
+  { nama:"Kawa-Kawa Anggur Merah", harga:100000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/20506.jpg" },
+  { nama:"Kawa-Kawa Anggur Hijau", harga:110000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/kawa_kawa_kawa_kawa_anggur_hijau_600ml_37842x_99fb94f5-b24c-4c03-b3d9-ab6ff46da01d.jpg" },
+  { nama:"Anggur Merah", harga:100000, kategori:"Hard Drink", tipe:"minuman", foto:"images/Minuman/ot_anggur_merah_gold_620ml_full01_41442.jpg" }
+];
+
+/* ================= ELEMENT ================= */
+const menuDiv = document.getElementById("menu");
+const orderList = document.getElementById("orderList");
+const totalHargaEl = document.getElementById("totalHarga");
+const hero = document.getElementById("hero");
+const categoryBar = document.getElementById("categoryBar");
+const backBtn = document.getElementById("backBtn");
+const orderBox = document.getElementById("orderBox");
+const themeBtn = document.getElementById("themeBtn");
+
+let cart = {}; // key: "Nama|dingin/panas" atau "Nama"
+let currentType = null;
+let activeFilter = "All";
+
+/* ================= DARK MODE ================= */
+function initTheme(){
+  const saved = localStorage.getItem("theme");
+  if(saved === "dark"){
+    document.body.classList.add("dark");
+    themeBtn.textContent = "☀️";
+  }else{
+    themeBtn.textContent = "🌙";
+  }
+}
+initTheme();
+
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  const dark = document.body.classList.contains("dark");
+  localStorage.setItem("theme", dark ? "dark" : "light");
+  themeBtn.textContent = dark ? "☀️" : "🌙";
+}
+
+/* ================= NAV STATE (BACK HP SAFE) ================= */
+history.replaceState(
+  {page:"home"},
+  "",
+  location.pathname + location.search + location.hash
+);
+
+window.onpopstate = function(){
+  if(currentType){
+    backToHome(false);
+  }else{
+    history.go(-1);
+  }
+};
+
+function pushMenuState(){
+  history.pushState(
+    {page:"menu"},
+    "",
+    location.pathname + location.search + location.hash
+  );
+}
+
+/* ================= OPEN MENU ================= */
+function openMenu(type){
+  currentType = type;
+  activeFilter = "All";
+  pushMenuState();
+  hero.style.opacity = 0;
+  setTimeout(()=>{
+    hero.style.display = "none";
+    renderCategory(type);
+    categoryBar.style.display = "flex";
+    backBtn.style.display = "block";
+    orderBox.style.display = "block";
+    setTimeout(()=>orderBox.classList.add("show"),50);
+    renderMenu();
+  },200);
+}
+
+/* ================= BACK TO HOME ================= */
+function backToHome(push=true){
+  currentType = null;
+  activeFilter = "All";
+  categoryBar.style.display = "none";
+  backBtn.style.display = "none";
+  orderBox.classList.remove("show");
+  setTimeout(()=>{
+    orderBox.style.display = "none";
+    menuDiv.innerHTML = "";
+    hero.style.display = "grid";
+    hero.style.opacity = 1;
+  },300);
+
+  if(push){
+    history.pushState(
+  {page:"home"},
+  "",
+  location.pathname + location.search + location.hash
+);
+  }
+}
+
+/* ================= CATEGORY RENDER ================= */
+function renderCategory(type){
+  let cats = ["All"];
+  menuData.forEach(i=>{
+    if(i.tipe === type && !cats.includes(i.kategori)){
+      cats.push(i.kategori);
+    }
+  });
+
+  categoryBar.innerHTML = "";
+  cats.forEach((c, idx)=>{
+    categoryBar.innerHTML += `
+      <button class="${idx===0?'active':''}" onclick="filterMenu('${c}', this)">${c}</button>
+    `;
+  });
+}
+
+/* ================= RENDER MENU ================= */
+function renderMenu(filter=activeFilter){
+  activeFilter = filter;
+  menuDiv.innerHTML = "";
+
+  menuData.forEach(item=>{
+    if(item.tipe !== currentType) return;
+    if(filter !== "All" && item.kategori !== filter) return;
+
+    if(item.tipe === "minuman"){
+      renderDrinkItem(item);
+    }else{
+      renderFoodItem(item);
+    }
+  });
+}
+
+/* ================= FOOD ITEM ================= */
+function renderFoodItem(item){
+  const qty = cart[item.nama] || 0;
+
+  menuDiv.innerHTML += `
+    <div class="item">
+      <img src="${item.foto}">
+      <div class="info">
+        <b>${item.nama}</b>
+        <div class="price">Rp ${item.harga.toLocaleString("id-ID")}</div>
+      </div>
+      <button class="minus" onclick="removeFood('${item.nama}')">−</button>
+      <div class="qty">${qty}</div>
+      <button class="plus" onclick="addFood('${item.nama}', ${item.harga})">+</button>
+    </div>
+  `;
+}
+
+/* ================= DRINK ITEM ================= */
+function renderDrinkItem(item){
+  const hasCold = item.dingin !== undefined && item.dingin !== null;
+  const hasHot  = item.panas !== undefined && item.panas !== null;
+  const hasToggle = hasCold && hasHot;
+
+  const defaultMode = hasToggle ? "dingin" : "single";
+  const id = Math.random().toString(36).substr(2,5);
+
+  const coldKey = `${item.nama}|dingin`;
+  const hotKey = `${item.nama}|panas`;
+  const singleKey = item.nama;
+
+  const coldQty = cart[coldKey] || 0;
+  const hotQty = cart[hotKey] || 0;
+  const singleQty = cart[singleKey] || 0;
+
+  const priceNow = hasToggle
+    ? (coldQty > 0 ? item.dingin : hotQty > 0 ? item.panas : item.dingin)
+    : (item.harga ?? item.dingin ?? item.panas);
+
+  const modeNow = hasToggle
+    ? (coldQty > 0 ? "dingin" : hotQty > 0 ? "panas" : "dingin")
+    : "single";
+
+  menuDiv.innerHTML += `
+    <div class="item" data-id="${id}">
+      <img src="${item.foto}">
+      <div class="info">
+        <b>${item.nama}</b>
+
+        ${hasToggle ? `
+          <div class="drink-toggle">
+            <button class="temp-btn ${modeNow==='dingin'?'active':''}" onclick="switchTemp('${id}','dingin',${item.dingin},${item.panas})">❄️ Dingin</button>
+            <button class="temp-btn ${modeNow==='panas'?'active':''}" onclick="switchTemp('${id}','panas',${item.dingin},${item.panas})">🔥 Panas</button>
+          </div>
+        ` : ``}
+
+        <div class="price" id="price-${id}">
+          Rp ${priceNow.toLocaleString("id-ID")}
+        </div>
+      </div>
+
+      <button class="minus" onclick="${hasToggle
+        ? `removeDrink('${item.nama}','${modeNow}')`
+        : `removeSingleDrink('${item.nama}')`
+      }">−</button>
+
+      <div class="qty" id="qty-${id}">
+        ${hasToggle ? (modeNow==='dingin'?coldQty:hotQty) : singleQty}
+      </div>
+
+      <button class="plus" onclick="${hasToggle
+        ? `addDrink('${item.nama}','${modeNow}',${item.dingin},${item.panas})`
+        : `addSingleDrink('${item.nama}',${priceNow})`
+      }">+</button>
+    </div>
+  `;
+}
+
+/* ================= SWITCH TEMP ================= */
+function switchTemp(id, mode, coldPrice, hotPrice){
+  const card = document.querySelector(`[data-id="${id}"]`);
+  const btns = card.querySelectorAll('.temp-btn');
+  btns.forEach(b=>b.classList.remove('active'));
+  btns.forEach(b=>{
+    if(b.textContent.includes(mode === "dingin" ? "Dingin" : "Panas")){
+      b.classList.add('active');
+    }
+  });
+
+  const priceEl = card.querySelector(`#price-${id}`);
+  priceEl.textContent = "Rp " + (mode === "dingin" ? coldPrice : hotPrice).toLocaleString("id-ID");
+
+  const nama = card.querySelector('b').textContent;
+  const qtyEl = card.querySelector(`#qty-${id}`);
+  const key = `${nama}|${mode}`;
+  qtyEl.textContent = cart[key] || 0;
+
+  card.querySelector('.plus').setAttribute("onclick", `addDrink('${nama}','${mode}',${coldPrice},${hotPrice})`);
+  card.querySelector('.minus').setAttribute("onclick", `removeDrink('${nama}','${mode}')`);
+}
+
+/* ================= FILTER ================= */
+function filterMenu(kat, el){
+  document.querySelectorAll('.category button')
+    .forEach(btn=>btn.classList.remove('active'));
+  el.classList.add('active');
+  renderMenu(kat);
+}
+
+/* ================= CART FOOD ================= */
+function addFood(nama, harga){
+  cart[nama] = cart[nama] ? cart[nama] + 1 : 1;
+  bounceOrder();
+  renderCart();
+  renderMenu(activeFilter);
+}
+
+function removeFood(nama){
+  if(cart[nama]){
+    cart[nama]--;
+    if(cart[nama] <= 0) delete cart[nama];
+    bounceOrder();
+    renderCart();
+    renderMenu(activeFilter);
+  }
+}
+
+/* ================= CART DRINK (WITH HOT/COLD) ================= */
+function addDrink(nama, mode, coldPrice, hotPrice){
+  const key = `${nama}|${mode}`;
+  cart[key] = cart[key] ? cart[key] + 1 : 1;
+  bounceOrder();
+  renderCart();
+  renderMenu(activeFilter);
+}
+
+function removeDrink(nama, mode){
+  const key = `${nama}|${mode}`;
+  if(cart[key]){
+    cart[key]--;
+    if(cart[key] <= 0) delete cart[key];
+    bounceOrder();
+    renderCart();
+    renderMenu(activeFilter);
+  }
+}
+
+/* ================= CART DRINK (SINGLE PRICE) ================= */
+function addSingleDrink(nama, harga){
+  cart[nama] = cart[nama] ? cart[nama] + 1 : 1;
+  bounceOrder();
+  renderCart();
+  renderMenu(activeFilter);
+}
+
+function removeSingleDrink(nama){
+  if(cart[nama]){
+    cart[nama]--;
+    if(cart[nama] <= 0) delete cart[nama];
+    bounceOrder();
+    renderCart();
+    renderMenu(activeFilter);
+  }
+}
+
+/* ================= RENDER CART ================= */
+function renderCart(){
+  orderList.innerHTML = "";
+  let totalHarga = 0;
+
+  for(let key in cart){
+    const parts = key.split("|");
+    const nama = parts[0];
+    const mode = parts[1] || "single";
+    const item = menuData.find(m=>m.nama === nama);
+
+    let harga = 0;
+    if(mode === "dingin") harga = item.dingin;
+    else if(mode === "panas") harga = item.panas;
+    else harga = item.harga ?? item.dingin ?? item.panas;
+
+    totalHarga += harga * cart[key];
+    orderList.innerHTML += `
+      <div>
+        <span>${nama}${mode!=="single" ? ` (${mode === "dingin" ? "❄️ Dingin" : "🔥 Panas"})` : ""} x${cart[key]}</span>
+        <span>Rp ${(harga * cart[key]).toLocaleString("id-ID")}</span>
+      </div>
+    `;
+  }
+
+  if(Object.keys(cart).length === 0){
+    orderList.innerHTML = "Belum ada pesanan";
+  }
+
+  totalHargaEl.innerText = "Rp " + totalHarga.toLocaleString("id-ID");
+}
+
+/* ================= BOUNCE ================= */
+function bounceOrder(){
+  orderBox.animate([
+    {transform:'translateY(0)'},
+    {transform:'translateY(-8px)'},
+    {transform:'translateY(0)'}
+  ],{duration:300});
+}
+
+/* ================= SEND WA ================= */
+function sendWA(){
+  if(Object.keys(cart).length === 0){
+    alert("Pesanan masih kosong!");
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const meja = params.get("meja") || "Manual";
+  const lantai = params.get("lantai") || "";
+
+  let msg = `Pesanan Meja ${meja}${lantai ? " lantai " + lantai : ""}\n`;
+
+  for(let key in cart){
+    const parts = key.split("|");
+    const nama = parts[0];
+    const mode = parts[1];
+    msg += `- ${nama}${mode ? ` (${mode === "dingin" ? "Dingin" : "Panas"})` : ""} x${cart[key]}\n`;
+  }
+
+  const note = document.getElementById('note').value;
+  if(note.trim() !== ""){
+    msg += `\nCatatan: ${note}`;
+  }
+
+  const wa = "6285835948734";
+  window.location.href = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+}
+</script>
+
+</body>
+</html>
